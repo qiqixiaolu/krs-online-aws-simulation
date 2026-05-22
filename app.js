@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 80; // Sesuai proposal
+const port = 80; // Sesuai proposal menggunakan port 80 (HTTP)
 const http = require('http');
 
 // Fungsi untuk mengambil Metadata ID Instance EC2 dari AWS IMDSv2
@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 // 1. Endpoint Utama (Root /) - Simulasi Halaman Depan KRS
-app.get('/', (res) => {
+app.get('/', (req, res) => {
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -75,13 +75,12 @@ app.get('/', (res) => {
 });
 
 // 2. Endpoint Health Check (Sesuai konfigurasi ALB target group)
-app.get('/health', (res) => {
+app.get('/health', (req, res) => {
     res.status(200).json({ status: 'UP', instanceId: instanceId });
 });
 
 // 3. Endpoint Simulasi Beban (/load) - Menghitung Fibonacci secara tidak efisien
-// Akses halaman ini via Apache Benchmark untuk menaikkan CPU secara drastis
-app.get('/load', (res) => {
+app.get('/load', (req, res) => {
     const startTime = Date.now();
     
     // Fungsi rekursif berat penumpuk CPU
@@ -90,7 +89,7 @@ app.get('/load', (res) => {
         return slowFibonacci(n - 1) + slowFibonacci(n - 2);
     }
     
-    // Angka 42-45 biasanya cukup membuat CPU t2.micro kelabakan selama beberapa detik
+    // Angka 42 biasanya cukup membuat CPU t2.micro kelabakan selama beberapa detik
     const result = slowFibonacci(42); 
     const duration = Date.now() - startTime;
 
