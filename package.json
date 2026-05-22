@@ -1,0 +1,12 @@
+{
+  "name": "krs-online-simulation",
+  "version": "1.0.0",
+  "description": "Simulasi Portal KRS Online untuk Pengujian AWS ALB dan ASG",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
